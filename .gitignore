@@ -1,0 +1,8 @@
+.env
+.DS_Store
+.Rproj.user
+.Rhistory
+.RData
+.vscode
+pgdata_prod/
+pgdata_dev/

@@ -1,0 +1,31 @@
+services:
+  postgres-prod:
+    image: postgres:13
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - pgdata_prod:/var/lib/postgresql/data
+    networks:
+      - rede_prod
+
+  app-prod:
+    build: .
+    restart: always
+    ports:
+      - "3838:3838"  # <--- Porta Oficial
+    environment:
+      - DB_HOST=postgres-prod
+      - DB_PASS=${DB_PASS}
+    volumes:
+      # Caminho corrigido para funcionar com o Dockerfile novo
+      - ./dataset:/srv/shiny-server/sabeis_pcdt/dataset
+    networks:
+      - rede_prod
+
+volumes:
+  pgdata_prod:
+networks:
+  rede_prod:
